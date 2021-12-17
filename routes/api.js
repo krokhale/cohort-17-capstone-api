@@ -23,13 +23,15 @@ let models = require('../lib/models')
 // POST http://localhost:3000/api/questions
 router.post('/questions', async function(req, res, next) {
     console.log('req.body are', req.body)
-    let question = await models.Question.create({questionText: req.body.questionText})
+    console.log('req.query', req.query)
+    let question = await models.Question.create({questionText: req.body.questionText, category: req.query.category})
     res.json(question)
 });
 
 // Get http://localhost:3000/api/questions
 router.get('/questions', async function(req, res, next) {
-    let questions = await models.Question.findAll({})
+    console.log('req.query', req.query)
+    let questions = await models.Question.findAll({where: {category: req.query.category}})
     res.json(questions)
 });
 
